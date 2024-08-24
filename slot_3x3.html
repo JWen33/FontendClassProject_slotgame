@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cat_slot</title>
+    <link rel="stylesheet" href="./custom_css/slot_game.css">
+    <script src="./custom_js/slot_game.js"></script>
+
+</head>
+
+<body>
+    <!-- 滿版背景動畫 -->
+    <video src="./video_music/1795797-hd_1920_1080_30fps.mp4"></video>
+
+    <!-- 中間拉霸機介面 -->
+    <div class="main_container">
+
+        <!-- 左上角背景音樂 -->
+        <div class="music_container">
+            <p>Background Music</p>
+            <div class="toggle_switch">
+                <input type="checkbox" id="switch" onclick="bgmOn()">
+                <label class="switch_btn" for="switch"></label>
+            </div>
+            <audio id="bgm" src="./video_music/bgm.mp3">瀏覽器不支援此音訊</audio>
+        </div>
+
+        <!-- 右上角下拉選單 -->
+        <div class="bar_container" onclick="toggledown();">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+        <div id="doprdownMenu" class="dropdown">
+            <li>會員資料</li>
+            <li id="logout" onclick="logout()">登出</li>
+        </div>
+
+        <!-- 中間標題 -->
+        <h1 data-storke="Slot Game">Slot Game</h1>
+
+        <!-- 中間拉霸機本體 -->
+        <div class="slot_container">
+            <div class="player">
+                <img src="" alt="">
+                <p id="player_name"></p>
+                <audio src=""></audio>
+            </div>
+            <div class="slot_reel">
+                <div class="slot_reel_column">
+                    <div class="reel1">
+                        <div class="symbol"><img class="symbol_img" src="./img/munchkin.png" alt="隨機圖案1"></div>
+                    </div>
+                    <div class="reel1">
+                        <div class="symbol"><img class="symbol_img" src="./img/animals.png" alt="隨機圖案2"></div>
+                    </div>
+                    <div class="reel1">
+                        <div class="symbol"><img class="symbol_img" src="./img/cat.png" alt="隨機圖案3"></div>
+                    </div>
+                </div>
+                <div class="slot_reel_column">
+                    <div class="reel2">
+                        <div class="symbol"><img class="symbol_img" src="./img/munchkin.png" alt="隨機圖案1"></div>
+                    </div>
+                    <div class="reel2">
+                        <div class="symbol"><img class="symbol_img" src="./img/animals.png" alt="隨機圖案2"></div>
+                    </div>
+                    <div class="reel2">
+                        <div class="symbol"><img class="symbol_img" src="./img/cat.png" alt="隨機圖案3"></div>
+                    </div>
+                </div>
+                <div class="slot_reel_column">
+                    <div class="reel3">
+                        <div class="symbol"><img class="symbol_img" src="./img/munchkin.png" alt="隨機圖案1"></div>
+                    </div>
+                    <div class="reel3">
+                        <div class="symbol"><img class="symbol_img" src="./img/animals.png" alt="隨機圖案2"></div>
+                    </div>
+                    <div class="reel3">
+                        <div class="symbol"><img class="symbol_img" src="./img/cat.png" alt="隨機圖案3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="symbols_rank">
+                <li><img src="./img/munchkin.png"><img src="./img/munchkin.png"><img src="./img/munchkin.png"> x50</li>
+                <li><img src="./img/cat.png"><img src="./img/cat.png"><img src="./img/cat.png"> x30</li>
+                <li><img src="./img/animals.png"><img src="./img/animals.png"><img src="./img/animals.png"> x20</li>
+                <li><img src="./img/paw.png"><img src="./img/paw.png"><img src="./img/paw.png"> x10</li>
+            </div>
+        </div>
+
+        <!-- 下排控制面板與分數顯示板 -->
+        <div class="score_board">
+            <div id="bet">
+                <span>押注 (元)</span>
+                <button data-bet="5">5</button>
+                <button data-bet="10">10</button>
+                <button data-bet="20">20</button>
+            </div>
+            <div id="single_win">
+                <span>得分：<span id="score"></span></span>
+            </div>
+            <div id="balance">
+                <span>餘額：<span id="totalBalance"></span></span>
+
+            </div>
+            <button class="spin_button">開始遊戲</button>
+        </div>
+    </div>
+    
+</body>
+
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cat_slot</title>
+    <link rel="stylesheet" href="./custom_css/cat_slot.css">
+    <script src="./custom_js/cat_slot.js"></script>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        video {
+            position: fixed;
+            /*固定不要動*/
+            top: 0;
+            left: 0;
+            margin: 0;
+            z-index: -1;
+            opacity: 30%;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        input[type=checkbox] {
+            display: none;
+            /*因為原本預設的樣式為checkbox，所以先將其隱藏起來*/
+        }
+
+        .main_container {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .music_container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .switch_btn {
+            display: block;
+            /*然後才用顯示讓自己設定的樣式出現*/
+            position: relative;
+            width: 50px;
+            height: 25px;
+            border-radius: 50px;
+            background-color: lightgray;
+            cursor: pointer;
+        }
+
+        .switch_btn::before {
+            /*利用偽元素來製作按鈕，在原本按鈕的樣式之前，定位重疊即可顯示按鈕*/
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 15px;
+            height: 15px;
+            background-color: #fff;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+
+        #switch:checked+.switch_btn {
+            /*當input checkbox被勾選之後，會使相鄰的switch_btn改變背景顏色*/
+            background-color: rgb(246, 189, 189);
+        }
+
+        #switch:checked+.switch_btn::before {
+            content: "";
+            background-color: #fff;
+            left: 30px;
+            transform: rotate(360deg);
+            /*有沒有加效果好像一樣?*/
+        }
+
+        .bar_container {
+            display: inline-block;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        .bar1,
+        .bar2,
+        .bar3 {
+            width: 30px;
+            height: 3px;
+            background-color: rgba(14, 125, 176, 0.76);
+            margin: 5px 0;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            z-index: 1;
+        }
+
+        .change .bar1 {
+            transform: rotate(-45deg) translate(0, 11px);
+        }
+
+        .change .bar2 {
+            opacity: 0;
+        }
+
+        .change .bar3 {
+            transform: rotate(45deg) translate(0, -11px);
+        }
+
+        .show {
+            display: block;
+        }
+
+        .h1 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .balance {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 50px;
+            margin-top: 20px;
+            background-color: rgb(255, 255, 255);
+            border: 2px solid rgba(255, 225, 0, 0.987);
+            border-radius: 10px;
+            color: black;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .slot_container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 50%;
+            margin-top: 20px;
+        }
+
+        .player {
+            padding: 10px;
+            width: 200px;
+            border-radius: 20px;
+            border: 5px solid rgba(255, 225, 0, 0.987);
+            background-color: rgb(34, 33, 33);
+        }
+
+        .slot_reel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 500px;
+            height: 80%;
+            background-color: rgb(34, 33, 33);
+            border-radius: 20px;
+            margin: 0 20px;
+        }
+
+        .reel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .symbol {
+            position: relative;
+            display: inline-block;
+            justify-content: center;
+            align-items: center;
+            margin: 15px;
+            width: 100px;
+            height: 100px;
+            border: 5px solid white;
+        }
+
+        .symbol_img {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            margin: auto;
+            width: 80%;
+            height: 80%;
+        }
+
+        img {
+            width: 30px;
+        }
+
+
+        .symbols_rank {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 10px;
+            width: 200px;
+            height: 50%;
+            border-radius: 20px;
+            border: 5px solid rgba(255, 225, 0, 0.987);
+            background-color: rgb(34, 33, 33);
+
+        }
+
+        li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style-type: none;
+            margin: 10px auto;
+            color: #fff;
+        }
+
+        .score_board {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgb(34, 33, 33);
+            height: 100px;
+            width: 900px;
+            border-radius: 10px;
+            border: 5px solid rgba(255, 225, 0, 0.987);
+            margin-top: 20px;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        #bet,
+        #single_win,
+        #total_win {
+
+            border-radius: 10px;
+            display: flex;
+            display: inline-block;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 0 30px;
+            margin: auto;
+            color: #fff;
+        }
+
+        span {
+            display: flex;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bolder;
+            margin-top: 5px;
+        }
+
+        .spin_button {
+            padding: 10px;
+            margin: auto;
+            padding: 10px 20px;
+            font-size: 20px;
+            color: #fff;
+            background-color: #ff9900;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .spin_button:hover {
+            background-color: #cc7a00;
+        }
+
+        @keyframes highlight {
+            0% {
+                background-color: yellow;
+                transform: scale(1);
+            }
+
+            50% {
+                background-color: orange;
+                transform: scale(1.2);
+            }
+
+            100% {
+                background-color: yellow;
+                transform: scale(1);
+            }
+        }
+
+        .balance.highlight {
+            animation: highlight 1s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <video autoplay muted loop id="bgvid">
+        <source src="./vid/cat-slot-machine.mp4" type="video/mp4">
+    </video>
+
+    <div class="main_container">
+        <!-- 左上角音樂控制開關 -->
+        <div class="music_container">
+            <input type="checkbox" id="switch" onclick="bgmOn()">
+            <label class="switch_btn" for="switch"></label>
+            <audio id="bgm" loop src="./audio/暁Records - Sweet little Sister【公式】.mp3"></audio>
+        </div>
+
+        <!-- 右上角菜單按鈕 -->
+        <div class="bar_container" onclick="toggledown(this)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+            <div class="dropdown" id="doprdownMenu">
+                <a href="#">選項 1</a>
+                <a href="#">選項 2</a>
+                <a href="#">選項 3</a>
+            </div>
+        </div>
+
+        <!-- 頁面標題 -->
+        <h1>貓咪主題拉霸機</h1>
+
+        <!-- 餘額 -->
+        <div class="balance">餘額：<span id="currentBalance">1000</span></div>
+
+        <!-- 中間拉霸機本體 -->
+        <div class="slot_container">
+            <div class="player">
+                <img src="" alt="">
+                <p id="player_name"></p>
+                <audio src=""></audio>
+            </div>
+            <div class="slot_reel">
+                <div class="reel">
+                    <div class="symbol"><img class="symbol_img" src="./img/munchkin.png" alt="隨機圖案1"></div>
+                </div>
+                <div class="reel">
+                    <div class="symbol"><img class="symbol_img" src="./img/animals.png" alt="隨機圖案2"></div>
+                </div>
+                <div class="reel">
+                    <div class="symbol"><img class="symbol_img" src="./img/cat.png" alt="隨機圖案3"></div>
+                </div>
+            </div>
+            <div class="symbols_rank">
+                <li><img src="./img/munchkin.png"><img src="./img/munchkin.png"><img src="./img/munchkin.png"> = 50</li>
+                <li><img src="./img/cat.png"><img src="./img/cat.png"><img src="./img/cat.png"> = 30</li>
+                <li><img src="./img/animals.png"><img src="./img/animals.png"><img src="./img/animals.png"> = 20</li>
+                <li><img src="./img/paw.png"><img src="./img/paw.png"><img src="./img/paw.png"> = 10</li>
+            </div>
+        </div>
+
+        <!-- 下排控制面板與分數顯示板 -->
+        <div class="score_board">
+            <div id="bet">
+                <div>押注</div>
+                <button>1</button>
+                <button>10</button>
+                <button>20</button>
+            </div>
+            <div id="single_win">
+                <div>得分：<span id="score"></span></div>
+            </div>
+            <div id="total_win">
+                <div>總得分：</div>
+                <span id="totalScore"></span>
+            </div>
+            <button class="spin_button">開始遊戲</button>
+        </div>
+    </div>
+    <script>
+        window.onload = function () {
+            // 玩家帳號名稱串接
+            const playername = sessionStorage.getItem("username");
+
+            if (playername) {
+                document.getElementById("player_name").textContent = "嗨！" + playername + "歡迎回來！";
+            };
+
+            // 右側下拉式許選單
+            function toggledown(x) {
+                x.classList.toggle("change");
+                document.getElementById("doprdownMenu").classList.toggle("show");
+            };
+
+
+            // 背景音樂開關
+            const switchButton = document.getElementById("switch");
+            const bgm = document.getElementById("bgm");
+
+            function bgmOn() {
+                if (switchButton.checked) {
+                    bgm.play();
+                } else {
+                    bgm.pause();
+                }
+            };
+
+
+            //拉霸機隨機出現圖案
+            const symbolsArray = [
+                { src: '/img/munchkin.png', alt: '圖案1', score: 50 },
+                { src: '/img/cat.png', alt: '圖案2', score: 30 },
+                { src: '/img/animals.png', alt: '圖案3', score: 20 },
+                { src: '/img/paw.png', alt: '圖案4', score: 10 },
+            ];
+
+            const reels = document.querySelectorAll(".reel"); // 選取帶有.reel的DOM元素，並存入一個nodelist中
+            const scoreElem = document.getElementById("score"); // 選取帶有#score的DOM元素，用來顯示當前分數
+            let score = 0; // 初始化分數變數，初始值為0
+            let totalScore = 0;
+            const totalScoreElem = document.getElementById("totalScore");
+
+            document.querySelector(".spin_button").addEventListener('click', () => { // 當按鈕被點擊，會創建一個空陣列results
+                const results = [];
+                reels.forEach(reel => {  // 使用forEach去對陣列中的元素進行迴圈，推入results的陣列中
+                    results.push(spinReel(reel));
+                });
+                const currentScore = calculateScore(results); // 創建 calculateScore 函數，並傳入 results 陣列來計算和更新分數
+                if (currentScore > 0) {
+                    totalWin(currentScore);
+                }
+            });
+
+
+            function spinReel(reel) {
+                const symbol = reel.querySelector(".symbol");
+                const randomSymbol = symbolsArray[Math.floor(Math.random() * symbolsArray.length)]; // 從symbolsArray中隨機選擇一個圖案，存入randomSymbol的變數中
+                symbol.innerHTML = `<img class="symbol_img" src="${randomSymbol.src}" alt="${randomSymbol.alt}">`; // 將選中的圖案插入到 symbol 元素的 innerHTML 中，顯示在reel上
+                return randomSymbol;
+            };
+
+            // 單次分數計算
+            function calculateScore(results) {
+                let currentScore = 0;
+                if (results[0].alt === results[1].alt && results[1].alt === results[2].alt) {
+                    currentScore = results[0].score;
+                    scoreElem.textContent = currentScore;
+
+                    if (currentScore === 50) {
+                        triggerHighlightAnimation();
+                    }
+                } else {
+                    scoreElem.textContent = 0;
+                }
+                return currentScore;
+            };
+
+            // 總得分計算
+            function totalWin(currentScore) {
+                totalScore += currentScore;
+                totalScoreElem.textContent = totalScore;
+            };
+
+            // 觸發高亮動畫
+            function triggerHighlightAnimation() {
+                const balanceElem = document.querySelector('.balance');
+                balanceElem.classList.add('highlight');
+
+                setTimeout(() => {
+                    balanceElem.classList.remove('highlight');
+                }, 1000); // 動畫持續 1 秒
+            };
+
+        };
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貓咪遊樂場</title>
+    <link rel="stylesheet" href="./custom_css/slot_home.css">
+    <script src="./custom_js/slot_home.js"></script>
+
+</head>
+
+<body>
+    <!-- 滿版背景動畫 -->
+    <video src="./video_music/1795797-hd_1920_1080_30fps.mp4"></video>
+    <div class="home">
+        <div class="container">
+            <h4 class="webtitle" data-storke="Slot Game">Slot Game</h4>
+            <div class="login_box">
+                <label for="uname"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" id="uname">
+
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" id="psw">
+
+                <button type="submit" class="login">Login</button>
+                <label>
+                    <input type="checkbox" checked="checked" name="remember">Remember me
+                </label>
+            </div>
+            <div class="right_footer">
+                <button class="register" onclick="showSignupModal()"><b>Singup</b></button>
+                <!--註冊頁面-->
+                <div id="signup_modal">
+                    <span class="close_icon" onclick="hideSignupModal()" title="Close Modal">&times;</span>
+                    <form class="signup_box" action="./slot_game.html" onsubmit="return validateform()">
+                        <div class="signup_container">
+
+                            <h1>Sign Up</h1>
+                            <p>Please fill in this gorm to creat an account.</p>
+                            <hr>
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="Enter Email" required>
+
+                            <label for="psw">Password</label>
+                            <input type="password" id="pswsingup" placeholder="Enter Password" required>
+
+                            <label for="psw_repeat">Repeat Password</label>
+                            <input type="password" id="psw_repeat" placeholder="Enter Password" required>
+
+                            <label>
+                                <input type="checkbox" checked="cheecked">Remember me
+                            </label>
+                            <div class="clearfix">
+                                <button type="submit" class="signupbtn">Signup</button>
+                                <button type="button" class="cancelBtn"
+                                    onclick="document.getElementById('signup_modal').style.display='none'">Cancel</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <button class="forgetpsw"><b>Forgotpassword</b></button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

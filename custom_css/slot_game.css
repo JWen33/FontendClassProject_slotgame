@@ -1,0 +1,327 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+video {
+    position: fixed;
+    /*固定不要動*/
+    top: 0;
+    left: 0;
+    margin: 0;
+    z-index: -1;
+    opacity: 30%;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+input[type=checkbox] {
+    display: none;
+    /*因為原本預設的樣式為checkbox，所以先將其隱藏起來*/
+}
+
+.main_container {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.music_container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.switch_btn {
+    display: block;
+    /*然後才用顯示讓自己設定的樣式出現*/
+    position: relative;
+    width: 50px;
+    height: 25px;
+    border-radius: 50px;
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.switch_btn::before {
+    /*利用偽元素來製作按鈕，在原本按鈕的樣式之前，定位重疊即可顯示按鈕*/
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+#switch:checked+.switch_btn {
+    /*當input checkbox被勾選之後，會使相鄰的switch_btn改變背景顏色*/
+    background-color: rgb(246, 189, 189);
+}
+
+#switch:checked+.switch_btn::before {
+    content: "";
+    background-color: #fff;
+    left: 30px;
+    transform: rotate(360deg);
+    /*有沒有加效果好像一樣?*/
+}
+
+.bar_container {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+    width: 30px;
+    height: 4px;
+    background-color: rgba(14, 125, 176, 0.76);
+    margin: 5px 0;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    z-index: 1;
+}
+
+.change .bar1 {
+    transform: rotate(-45deg) translate(0, 12px);
+}
+
+.change .bar2 {
+    opacity: 0;
+}
+
+.change .bar3 {
+    transform: rotate(45deg) translate(0, -12px);
+}
+
+.show {
+    display: block;
+}
+
+#logout {
+    cursor: pointer;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 50px;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1::before {
+    content: attr(data-storke);
+}
+
+h1::before {
+    position: absolute;
+    z-index: -1;
+    -webkit-text-stroke: 10px #6dbccf;
+}
+
+p {
+    display: inline;
+    justify-content: center;
+
+}
+
+.balance {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 50px;
+    margin-top: 20px;
+    background-color: rgb(255, 255, 255);
+    /* border: 2px solid rgba(255, 225, 0, 0.987); */
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.slot_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+    margin-top: 20px;
+}
+
+.player {
+    padding: 15px;
+    width: 200px;
+    /* border: 5px solid rgba(255, 225, 0, 0.987); */
+    background-color: rgb(34, 33, 33);
+    opacity: 0.9;
+    border: 6px dashed rgb(245, 195, 77);
+    color: #fff;
+    margin-right: 20px;
+}
+
+.slot_reel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 80%;
+    background-color: rgb(34, 33, 33);
+    margin: 0 20px;
+    opacity: 0.9;
+    box-shadow: 10px 10px 5px gray;
+}
+
+.reel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.symbol {
+    position: relative;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    margin: 15px;
+    width: 100px;
+    height: 100px;
+    border: 5px solid white;
+}
+
+.symbol_img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    margin: auto;
+    width: 80%;
+    height: 80%;
+
+}
+
+img {
+    width: 30px;
+    margin-right: 5px;
+}
+
+
+.symbols_rank {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    width: 200px;
+    height: 50%;
+    /* border: 5px solid rgba(255, 225, 0, 0.987); */
+    background-color: rgb(34, 33, 33);
+    opacity: 0.9;
+    border: 6px dashed rgb(245, 195, 77);
+    margin-left: 20px;
+
+}
+
+li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+    margin: 10px auto;
+    color: #fff;
+}
+
+.score_board {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(34, 33, 33);
+    height: 100px;
+    width: 900px;
+    /* border: 5px solid rgba(255, 225, 0, 0.987); */
+    margin-top: 20px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    box-shadow: inset 0 0 5px 5px gray;
+}
+
+#bet,
+#single_win,
+#balance {
+
+    border-radius: 10px;
+    display: flex;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 30px;
+    margin: auto;
+    color: #fff;
+}
+
+#bet button {
+    cursor: pointer;
+}
+
+#bet button.selected {
+    background-color: darkcyan;
+    color: #fff;
+}
+
+span {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bolder;
+    margin: 5px 0;
+}
+
+.spin_button {
+    padding: 10px;
+    margin: auto;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: #fff;
+    background-color: #ff9900;
+    border: none;
+    cursor: pointer;
+}
+
+/* 暫時觀察用 */
+
+@keyframes enlarge {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.5);
+    }
+}
+
+.enlarge {
+    animation: enlarge 0.5s forwards;
+}
